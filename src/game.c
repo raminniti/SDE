@@ -127,6 +127,29 @@ void GameDraw(void) {
         //LevelDrawForeground();  // Layer 3 - Overhead door frames, tree tops
         HudDraw(0,152);              // Layer 4 - UI
 
+#ifdef DEBUG_MODE
+        int offset_x= 0;
+        int offset_y = 0;
+
+        char debug_buf[64];
+
+        // 1. Format and draw FPS
+        snprintf(debug_buf, sizeof(debug_buf), "FPS: %f", ClockGetFps());
+        ImageDrawText(0+offset_x, 0+offset_y, TEX_GUI, debug_buf);
+
+        snprintf(debug_buf, sizeof(debug_buf), "Entities: %d / %d",
+            EntityGetActiveCount(), MAX_ENTITIES);
+        ImageDrawText(0 + offset_x, 8 + offset_y, TEX_GUI, debug_buf);
+
+        snprintf(debug_buf, sizeof(debug_buf), "Projectiles: %d / %d",
+            ProjectileGetActiveCount(), MAX_PROJECTILES);
+        ImageDrawText(0 + offset_x, 16 + offset_y, TEX_GUI, debug_buf);
+
+        snprintf(debug_buf, sizeof(debug_buf), "Vfx: %d / %d",
+            VfxGetActiveCount(), MAX_VFX);
+        ImageDrawText(0 + offset_x, 24 + offset_y, TEX_GUI, debug_buf);
+
+#endif // DEBUG
         break;
 
     case STATE_GAMEOVER:

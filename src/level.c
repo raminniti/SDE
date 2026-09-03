@@ -24,7 +24,6 @@ void LevelInit(const char* level) {
     sTileFlags[178] = TILE_FLAG_MID;
     sTileFlags[216] = TILE_FLAG_ANIM | TILE_FLAG_MID;
     sTileFlags[529] = TILE_FLAG_HIGH | TILE_FLAG_BREAKABLE;
-
 }
 
 void LevelSave(const char* filename) {
@@ -92,7 +91,16 @@ void LevelDraw(void) {
     for (unsigned int r = 0; r < CHUNK_HEIGHT;  r++){
         for (unsigned int c = 0; c < CHUNK_WIDTH; c++){
             i = tileData[r * CHUNK_WIDTH + c + offset];
-            ImageDrawTile(c * 16, r * 16, TEX_ATLAS, i + (sAnimOffset*!!(sTileFlags[i] & TILE_FLAG_ANIM)));
+            ImageDrawTile(c * TILE_SIZE, r * TILE_SIZE, TEX_ATLAS, i + (sAnimOffset*!!(sTileFlags[i] & TILE_FLAG_ANIM)));
+
+#ifdef DEBUG_MODE
+            SDL_Rect rect = { c * TILE_SIZE,r * TILE_SIZE,TILE_SIZE,TILE_SIZE };
+            if (sTileFlags[i] & (TILE_FLAG_LOW | TILE_FLAG_MID | TILE_FLAG_HIGH)) {
+                SDL_SetRenderDrawColor(WindowGetRenderer(), 255,0,0,255);
+                SDL_RenderDrawRect(WindowGetRenderer(), &rect);
+            }
+#endif // DEBUG
+
         }
     }
 }
@@ -147,3 +155,53 @@ void LevelUpdate(float dt) {
         }
     }
 }
+
+/*
+#if DEBUG_MODE
+void Level_DrawDebugCollisions(const Level* level, SDL_Renderer* renderer) {
+    // Bitmask definitions
+    #define SOLID_LOW  (1 << 0) // Bit 0: Pits (Shoot over, can't walk)
+    #define SOLID_MID  (1 << 1) // Bit 1: Rocks (Flight / Special movement)
+    #define SOLID_HIGH (1 << 2) // Bit 2: Walls (Unpassable)
+
+    for (int y = start_y; y < end_y; ++y) {
+        for (int x = start_x; x < end_x; ++x) {
+            uint8_t tile_id = level->map_ids[y * level->width + x];
+            uint8_t flags = level->tile_properties[tile_id].flags;
+
+            // Fast exit if no collision flags set
+            if (!(flags & (SOLID_LOW | SOLID_MID | SOLID_HIGH))) continue;
+
+            SDL_Rect rect = {
+                (x * TILE_SIZE) - camera_x,
+                (y * TILE_SIZE) - camera_y,
+                TILE_SIZE,
+                TILE_SIZE
+            };
+
+            // High priority: Full wall (Red)
+            if (flags & SOLID_HIGH) {
+                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red
+            }
+            // Mid priority: Low obstacle (Orange)
+            else if (flags & SOLID_MID) {
+                SDL_SetRenderDrawColor(renderer, 255, 128, 0, 255); // Orange
+            }
+            // Low priority: Pit / Chasm (Blue/Cyan)
+            else if (flags & SOLID_LOW) {
+                SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255); // Cyan
+            }
+
+            SDL_RenderDrawRect(renderer, &rect);
+
+            // Optional: If it has BOTH Low and High, draw an inner box for detail
+            if ((flags & SOLID_HIGH) && (flags & SOLID_LOW)) {
+                SDL_Rect inner_rect = { rect.x + 2, rect.y + 2, rect.w - 4, rect.h - 4 };
+                SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255); // Cyan inset
+                SDL_RenderDrawRect(renderer, &inner_rect);
+            }
+        }
+    }
+}
+#endif
+*/

@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#define DEBUG_MODE 1 //Set 0 to turn off
 #define nullptr (void*)0
 #define SCALE 3
 #define MAX_TILESHEETS 4

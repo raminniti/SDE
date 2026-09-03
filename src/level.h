@@ -23,11 +23,11 @@ typedef enum {
 	TILE_FLAG_LOW = 1, // pit or water collision
 	TILE_FLAG_MID = 2, // rocks and decos
 	TILE_FLAG_HIGH = 4,// unpassable, like walls
-	TILE_FLAG_ANIM = 8, //animated, but capped at 2 frames for now
+	TILE_FLAG_ANIM = 8, // animated, but capped at 2 frames for now
 	TILE_FLAG_SPECIAL = 16, // special, like interactable, lighting, etc
 	TILE_FLAG_DAMAGING = 32, // does damage, like lava or spikes
-	TILE_FLAG_BREAKABLE = 64, //projectiles can break it
-	TILE_FLAG_SPLODEABLE = 128//only blast damage breaks it
+	TILE_FLAG_BREAKABLE = 64, // projectiles can break it
+	TILE_FLAG_SPLODEABLE = 128// only blast damage breaks it
 }TileFlags;
 
 void LevelInit(const char* level);

@@ -65,3 +65,4 @@ void PlayerUpdate(float dt) {
         attackCoolDown = 0.32f;
     }
 }
+

@@ -102,6 +102,7 @@ void WindowUpdate()
 
 void WindowClear()
 {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	//Draw renderer to window
 	SDL_RenderClear(renderer);
 }

@@ -1,6 +1,3 @@
-#include <SDL.h>
-#include <assert.h>
-
 #ifndef WINDOW_H
 #define WINDOW_H
 
