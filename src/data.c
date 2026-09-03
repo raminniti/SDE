@@ -3,18 +3,18 @@
 
 void DatabaseLoadAssets(void) {
     // Load Graphic Atlas Sheets
-    ImageLoadTilesheet("images/atlas.bmp", TEX_ATLAS, 16, 16);
-    ImageLoadTilesheet("images/gui.bmp", TEX_GUI, 8, 8);
+    ImageLoadTilesheet("assets/images/atlas.bmp", TEX_ATLAS, 16, 16);
+    ImageLoadTilesheet("assets/images/gui.bmp", TEX_GUI, 8, 8);
 
     // Music & Sounds
-    AudioLoadMusic("audio/euo.mp3");
-    AudioLoadSound("audio/Hit.wav", SND_HIT);
-    AudioLoadSound("audio/bfxrShoot.ogg", SND_SHOOT);
-    AudioLoadSound("audio/mdeath.wav", SND_DEATH);
-    AudioLoadSound("audio/mpain.wav", SND_HURT);
-    AudioLoadSound("audio/step.wav", SND_STEP);
-    AudioLoadSound("audio/pickup.wav",SND_PICKUP);
-    AudioLoadSound("audio/break.wav", SND_BREAK);
+    AudioLoadMusic("assets/audio/euo.mp3");
+    AudioLoadSound("assets/audio/Hit.wav", SND_HIT);
+    AudioLoadSound("assets/audio/bfxrShoot.ogg", SND_SHOOT);
+    AudioLoadSound("assets/audio/mdeath.wav", SND_DEATH);
+    AudioLoadSound("assets/audio/mpain.wav", SND_HURT);
+    AudioLoadSound("assets/audio/step.wav", SND_STEP);
+    AudioLoadSound("assets/audio/pickup.wav",SND_PICKUP);
+    AudioLoadSound("assets/audio/break.wav", SND_BREAK);
 
     // Configure
     AudioSetVolume(10);

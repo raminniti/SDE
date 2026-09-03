@@ -15,7 +15,7 @@ void GameInit(void) {
     EntityManagerInit();
     //init player first to be at index[0], so we can clear everything when changing rooms. could also have isPlayer bool
     PlayerInit(10, 5);
-    LevelInit("levels/0.bin");
+    LevelInit("assets/levels/0.bin");
     ProjectileInit();
     VfxInit();
 

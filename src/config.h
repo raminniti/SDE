@@ -13,12 +13,8 @@
 #define MAX_SOUNDS 8
 #define TILE_SIZE 16
 #define NUM_TILES 1024
-
-//typedef signed char int8;
-//typedef signed short int16;
-//typedef signed int int32;
-//typedef unsigned char unsigned char;
-//typedef unsigned short unsigned short;
-//typedef unsigned int uint32;
+#define PATH_LEVELS "/assets/levels/"
+#define PATH_GFX "/assets/images/"
+#define PATH_AUDIO "/assets/audio/"
 
 #endif

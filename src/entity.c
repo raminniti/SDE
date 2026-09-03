@@ -202,14 +202,14 @@ void EntityHandleAllCollisions(void){
 					if (a->eId == ENT_STAIRS_DOWN) {
 						AudioPlaySound(SND_STEP);
 						EntityClearAll();
-						LevelLoad("levels/1.bin");
+						LevelLoad("assets/levels/1.bin");
 						LevelSelectRoom(LevelGetRoomId());
 						levelChangeTimer = 1.4f;
 					}
 					else if (a->eId == ENT_STAIRS_UP) {
 						AudioPlaySound(SND_STEP);
 						EntityClearAll();
-						LevelLoad("levels/0.bin");
+						LevelLoad("assets/levels/0.bin");
 						LevelSelectRoom(LevelGetRoomId());
 						levelChangeTimer = 1.4f;
 					}

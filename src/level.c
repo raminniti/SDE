@@ -51,7 +51,7 @@ void LevelSelectRoom(int id) {
     note: start loading rooms from file rather than storing them all in memory?
     */
     chunkId = id;
-    printf("room id= %d \n", chunkId);
+    //printf("room id= %d \n", chunkId);
     if (chunkId > LEVEL_SIZE - 1 || chunkId < 0) {
         chunkId = 0;
         return;
