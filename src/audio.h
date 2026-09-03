@@ -16,6 +16,7 @@ void AudioPlaySound(unsigned short id);
 void AudioPlayMusic();
 void AudioPauseMusic();
 void AudioStopMusic();
+void AudioInit();
 void AudioQuit();
 
 #endif

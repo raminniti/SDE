@@ -33,7 +33,7 @@ struct EntityBlueprint entityDatabase[ENT_COUNT] = {
     {
         .type = TYPE_CREATURE, .ai = AI_NONE, .faction = FACTION_PLAYER,
         .maxHealth = 100, .touchDamage = 0, .speed = 1,
-        .width = 15, .height = 15, .radius = 8, .rotateSprite = false, // Slightly smaller hitbox for forgiving collisions
+        .width = 15, .height = 15, .radius = 8, .rotateSprite = false,
         .projectileId = 0, .frameStart = 320, .frameAttack = 8, .numFrames = 4, .animRate = 0.12f
     },
     // ENT_ZOMBIE

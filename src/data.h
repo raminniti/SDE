@@ -47,7 +47,7 @@ typedef enum {
     TYPE_COUNT// TYPE_PROJECTILE, TYPE_EFFECT,TYPE_DECOR,
 } EntityType;
 
-// AI indices
+// AI types
 typedef enum {
     AI_NONE = 0,
     AI_CHASE_PLAYER,
@@ -68,12 +68,12 @@ struct EntityBlueprint{
         speed,			// movement speed
         attackSpeed,	// time between being able to attack
         ai,				// Ai this entity has, if any. 
-        width,			//size for collision. maybe in 8x8 tiles instead of pixels?
+        width,			//size for collision
         height,
         radius,
         touchDamage;
 		//interactable,	// if this can be activated, not needed if interactable type?
-	bool rotateSprite;	// bool: Should the sprite rotate based on the entity direction? 
+	bool rotateSprite;	// Should the sprite rotate based on the entity direction? 
 	unsigned short projectileId, //if the ai tries to spawn a projectile it'll use this 
 		frameStart,		// base frame/idle frame
 		frameAttack,	// one frame that'll show after attacking

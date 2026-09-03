@@ -21,17 +21,8 @@ Entity* EntitySpawn(int x, int y, unsigned int eid) {
 	struct EntityBlueprint* spawnData = &entityDatabase[eid];
 
 	if (activeCount < MAX_ENTITIES) {
-		/*if (eid == ENT_PLAYER) {
-			// Force player to be at index 0
-			// so we don't destroy the player when changing rooms or maps
-			// also required for collision collision checks
-			Entity* ent = &entities[0];
-		}
-		else {
-			Entity* ent = &entities[activeCount];
-		}*/
 		Entity* ent = &entities[activeCount];
-		//printf("Spawn activeCount= %d \n", activeCount);
+
 		// Wipe instance data block
 		SDL_memset(ent, 0, sizeof(Entity));
 
@@ -67,7 +58,7 @@ void EntityKill(int id){
 }
 
 void EntityKillIndex(int index) {
-	if (activeCount == 0) return;//index <= 0 || index >= activeCount ||
+	if (activeCount == 0) return;
 	activeCount--;
 	entities[index] = entities[activeCount];
 	entities[activeCount].active = false;
@@ -188,67 +179,6 @@ void EntityDrawAll() {
 	}
 }
 
-void EntityMoveWithCollision(Entity* e, Vec2 vel) {
-	int width = e->data->width;
-	int height = e->data->height;
-	char flags = (TILE_FLAG_LOW | TILE_FLAG_MID | TILE_FLAG_HIGH);
-
-	//X-axis
-	for (int i = 0; i < abs(vel.x); i++) {
-		int step_x = sign(vel.x);
-		int next_x = step_x + (int)e->pos.x;
-		int check_x = (step_x > 0) ? next_x + width : next_x;
-		char ct = LevelGetTileFlags(check_x, e->pos.y);
-		char cb = LevelGetTileFlags(check_x, e->bottom);
-		if (!(ct & flags) && !(cb & flags)) {
-			e->pos.x += step_x;
-			e->right = e->pos.x + width;
-		}
-		else {
-			//Nudge player around tiles
-			if (!(ct & flags) && (cb & flags)) {
-				e->pos.y -= 1;
-				e->bottom = (int)e->pos.y + height;
-				break;
-			}
-			else if ((ct & flags) && !(cb & flags)) {
-				e->pos.y += 1;
-				e->bottom = (int)e->pos.y + height;
-				break;
-			}
-			break;
-		}
-	}
-	e->vel.x = 0;
-	
-	// Y-axis
-	for (int i = 0; i < abs(vel.y); i++) {
-		int step_y = sign(vel.y);
-		int next_y = step_y + (int)e->pos.y;
-		int check_y = (step_y > 0) ? next_y + height : next_y;
-		char cl = LevelGetTileFlags(e->pos.x, check_y);
-		char cr = LevelGetTileFlags(e->right, check_y);
-		if (!(cl & flags) && !(cr & flags)) {
-			e->pos.y += step_y;
-			e->bottom = e->pos.y + height;
-		}
-		else {
-			//Nudge player around tiles
-			if (!(cl & flags) && (cr & flags)) {
-				e->pos.x -= 1;
-				e->right = (int)e->pos.x + width;
-				break;
-			}
-			else if ((cl & flags) && !(cr & flags)) {
-				e->pos.x += 1;
-				e->right = (int)e->pos.x + width;
-				break;
-			}
-			break;
-		}
-	}
-	e->vel.y = 0;
-}
 void EntityHandleAllCollisions(void){
 	Entity* player = gPlayer;
 	//Check collision for entities 
@@ -289,16 +219,65 @@ void EntityHandleAllCollisions(void){
 	}
 }
 
-/*
-* 
-* probably not needed to prevent destroying player?
-Entity* spawn_entity(EntityType type) {
-	// If trying to spawn a non-player, never let it touch index 0
-	if (type != TYPE_PLAYER && active_count == 0) {
-		active_count = 1; // Reserve index 0 explicitly for the player
+void EntityMoveWithCollision(Entity* e, Vec2 vel) {
+	int width = e->data->width;
+	int height = e->data->height;
+	char flags = (TILE_FLAG_LOW | TILE_FLAG_MID | TILE_FLAG_HIGH);
+
+	//X-axis
+	for (int i = 0; i < abs(vel.x); i++) {
+		int step_x = sign(vel.x);
+		int next_x = step_x + (int)e->pos.x;
+		int check_x = (step_x > 0) ? next_x + width : next_x;
+		char ct = LevelGetTileFlags(check_x, e->pos.y);
+		char cb = LevelGetTileFlags(check_x, e->bottom);
+
+		//Only move while there's no solid tile
+		if (!(ct & flags) && !(cb & flags)) {
+			e->pos.x += step_x;
+			e->right = e->pos.x + width;
+		}
+		else {
+			//Nudge player around tiles by one pixel
+			if (!(ct & flags) && (cb & flags)) {
+				e->pos.y -= 1;
+				e->bottom = (int)e->pos.y + height;
+				break;
+			}
+			else if ((ct & flags) && !(cb & flags)) {
+				e->pos.y += 1;
+				e->bottom = (int)e->pos.y + height;
+				break;
+			}
+			break;
+		}
 	}
 
-	// Player ALWAYS goes to index 0
-	int target_index = (type == TYPE_PLAYER) ? 0 : active_count++;
-	return &entities[target_index];
-}*/
+	// Y-axis
+	for (int i = 0; i < abs(vel.y); i++) {
+		int step_y = sign(vel.y);
+		int next_y = step_y + (int)e->pos.y;
+		int check_y = (step_y > 0) ? next_y + height : next_y;
+		char cl = LevelGetTileFlags(e->pos.x, check_y);
+		char cr = LevelGetTileFlags(e->right, check_y);
+		//Only move while there's no solid tile
+		if (!(cl & flags) && !(cr & flags)) {
+			e->pos.y += step_y;
+			e->bottom = e->pos.y + height;
+		}
+		else {
+			//Nudge player around tiles by one pixel
+			if (!(cl & flags) && (cr & flags)) {
+				e->pos.x -= 1;
+				e->right = (int)e->pos.x + width;
+				break;
+			}
+			else if ((cl & flags) && !(cr & flags)) {
+				e->pos.x += 1;
+				e->right = (int)e->pos.x + width;
+				break;
+			}
+			break;
+		}
+	}
+}

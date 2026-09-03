@@ -4,6 +4,10 @@ static Mix_Chunk* sounds[MAX_SOUNDS] = { 0 };
 static Mix_Music* music = nullptr;
 static signed char volume = 128; // Max volume is 128
 
+void AudioInit() {
+	Mix_AllocateChannels(8);
+}
+
 void AudioSetVolumeSound(int vol){
 	Mix_Volume(-1, vol);
 }

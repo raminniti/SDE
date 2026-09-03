@@ -89,8 +89,6 @@ void LevelDraw(void) {
     unsigned  int i = 0;
     unsigned  int offset = chunkId * CHUNK_SIZE;
 
-    
-
     for (unsigned int r = 0; r < CHUNK_HEIGHT;  r++){
         for (unsigned int c = 0; c < CHUNK_WIDTH; c++){
             i = tileData[r * CHUNK_WIDTH + c + offset];

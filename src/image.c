@@ -3,10 +3,8 @@
 static SDL_Renderer* renderer;
 static struct TileSheet tiles[MAX_TILESHEETS];
 
-void ImageInit(SDL_Renderer* r)
-{
-	for (unsigned char i = 0; i < MAX_TILESHEETS; ++i)
-	{
+void ImageInit(SDL_Renderer* r){
+	for (unsigned char i = 0; i < MAX_TILESHEETS; ++i){
 		tiles[i].texture = nullptr;
 	}
 	renderer = r;
@@ -29,8 +27,7 @@ void ImageLoadTilesheet(const char * filename, unsigned short id, unsigned short
 			printf("Unable to load image %s! SDL_image Error: %s\n", filename, SDL_GetError());
 			return;
 		}
-		else
-		{
+		else{
 			// Set Transparent color key
 			//Uint32 colorkey = SDL_MapRGB(loaded_surface->format, 0xFF, 0, 0xFF);
 			SDL_SetColorKey(loaded_surface, SDL_TRUE, SDL_MapRGB(loaded_surface->format, 0xFF, 0, 0xFF));
