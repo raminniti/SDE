@@ -133,7 +133,7 @@ void GameDraw(void) {
 
         char debug_buf[64];
 
-        // 1. Format and draw FPS
+        // Format and draw debug info
         snprintf(debug_buf, sizeof(debug_buf), "FPS: %f", ClockGetFps());
         ImageDrawText(0+offset_x, 0+offset_y, TEX_GUI, debug_buf);
 
@@ -149,6 +149,8 @@ void GameDraw(void) {
             VfxGetActiveCount(), MAX_VFX);
         ImageDrawText(0 + offset_x, 24 + offset_y, TEX_GUI, debug_buf);
 
+        snprintf(debug_buf, sizeof(debug_buf), "RoomId: %d", LevelGetRoomId());
+        ImageDrawText(0 + offset_x, 32 + offset_y, TEX_GUI, debug_buf);
 #endif // DEBUG
         break;
 

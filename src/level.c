@@ -1,8 +1,8 @@
 #include "level.h"
 #include "entity.h"
 
-static unsigned int tileData[ARRAY_SIZE];
-static unsigned int objectData[ARRAY_SIZE];
+static unsigned short tileData[ARRAY_SIZE];
+static unsigned short objectData[ARRAY_SIZE];
 static char sTileFlags[NUM_TILES];
 static short chunkId = 0;
 static float sAnimTimer = 0.0f;
@@ -29,7 +29,7 @@ void LevelInit(const char* level) {
 void LevelSave(const char* filename) {
     FILE* file = fopen(filename, "wb");
     if (file != NULL) {
-        fwrite(tileData, sizeof(int), ARRAY_SIZE, file);
+        fwrite(tileData, sizeof(uint16_t), ARRAY_SIZE, file);
         fclose(file);
     }
 }
@@ -37,8 +37,8 @@ void LevelSave(const char* filename) {
 void LevelLoad(const char* filename) {
     FILE* file = fopen(filename, "rb");
     if (file != NULL) {
-        fread(tileData, sizeof(int), ARRAY_SIZE, file);
-        fread(objectData, sizeof(int), ARRAY_SIZE, file);
+        fread(tileData, sizeof(uint16_t), ARRAY_SIZE, file);
+        fread(objectData, sizeof(uint16_t), ARRAY_SIZE, file);
         fclose(file);
     }
 }
