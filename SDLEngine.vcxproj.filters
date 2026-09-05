@@ -16,7 +16,7 @@
     <Filter Include="Source Files\wrappers">
       <UniqueIdentifier>{cf4de254-808f-40c0-a274-6c7c013c05b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\weappers">
+    <Filter Include="Header Files\wrappers">
       <UniqueIdentifier>{c70bcfb4-23c3-42f6-afe8-962ac200fb34}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -93,19 +93,19 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\clock.h">
-      <Filter>Header Files\weappers</Filter>
+      <Filter>Header Files\wrappers</Filter>
     </ClInclude>
     <ClInclude Include="src\audio.h">
-      <Filter>Header Files\weappers</Filter>
+      <Filter>Header Files\wrappers</Filter>
     </ClInclude>
     <ClInclude Include="src\image.h">
-      <Filter>Header Files\weappers</Filter>
+      <Filter>Header Files\wrappers</Filter>
     </ClInclude>
     <ClInclude Include="src\window.h">
-      <Filter>Header Files\weappers</Filter>
+      <Filter>Header Files\wrappers</Filter>
     </ClInclude>
     <ClInclude Include="src\input.h">
-      <Filter>Header Files\weappers</Filter>
+      <Filter>Header Files\wrappers</Filter>
     </ClInclude>
     <ClInclude Include="src\game.h">
       <Filter>Header Files</Filter>
@@ -123,7 +123,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\vector.h">
-      <Filter>Header Files\weappers</Filter>
+      <Filter>Header Files\wrappers</Filter>
     </ClInclude>
     <ClInclude Include="src\vfx.h">
       <Filter>Header Files</Filter>

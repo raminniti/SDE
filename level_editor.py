@@ -72,7 +72,7 @@ class Level:
         self.entities = np.zeros((self.size*self.chunkSize), dtype=np.int32)
         self.chunkTiles = self.tiles[0 : self.chunkSize]
         self.chunkObjects = self.entities[0 : self.chunkSize]
-        self.file_path = Path("levels/0.bin")
+        self.file_path = Path("assets/levels/0.bin")
         self.chunkTilesCopy = self.tiles[0 : self.chunkSize]
         self.chunkObjectsCopy = self.entities[0 : self.chunkSize]
         if self.file_path.is_file():
@@ -82,9 +82,9 @@ class Level:
             print("The file does not exist.")
     def Save(self,path):
         self.file_path = Path(path)
-        # Force arrays to 32-bit integers to match C's int size
-        tiles_raw = self.tiles.astype(np.int32).tobytes()
-        entities_raw = self.entities.astype(np.int32).tobytes()
+        # Force arrays to 16-bit unsigned integers
+        tiles_raw = self.tiles.astype(np.uint16).tobytes()
+        entities_raw = self.entities.astype(np.uint16).tobytes()
         with open(path, "wb") as f:
             f.write(tiles_raw)
             f.write(entities_raw)
@@ -92,8 +92,8 @@ class Level:
     def Load(self, path):
         self.file_path = Path(path)
         if self.file_path.is_file():
-            # Read the entire flat binary stream of 32-bit ints
-            raw_data = np.fromfile(path, dtype=np.int32)
+            # Read the entire flat binary stream of unsigned 16-bit ints
+            raw_data = np.fromfile(path, dtype=np.uint16)
             self.tiles = raw_data[0:self.chunkSize*self.size]
             self.entities = raw_data[self.chunkSize*self.size:]#.reshape((9, 15))
             self.SelectChunk(0)
@@ -190,12 +190,12 @@ class Selector:
         # create data for now, load it in later
         self.objectCatalog={
             0: 0,   #dummy data/nothing
-            1: 288, #Player
-            2: 508, #enemy
-            3: 286, #soul
+            1: 284, #Player - remove - do not use
+            2: 484, #enemy
+            3: 285, #soul
             4: 201, #stairs down
             5: 200, #stairs up
-            6: 258  #upgrade chest
+            6: 260  #upgrade
         }
     def Scroll(self, offset):
         self.scrollY += offset
@@ -285,7 +285,7 @@ class LevelEditor:
         self.consoleLog = []
         self.brushSize=1
         self.currentLevel = 0
-        self.levelDir="levels/"
+        self.levelDir="assets/levels/"
         self.fileExt =".bin"
     def Log(self, msg):
         self.consoleLog.append(msg)
@@ -455,7 +455,7 @@ class LevelEditor:
 
 if __name__ == "__main__":
     window = Window()
-    atlas = LoadTilesheet("images/atlas.bmp", 16)
+    atlas = LoadTilesheet("assets/images/atlas.bmp", 16)
     canvas = window.GetSurface()
     lvl = Level()
     lvled = LevelEditor(window, atlas, lvl)

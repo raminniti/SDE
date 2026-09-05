@@ -1,43 +1,92 @@
-# Level Editor
+# SEED: SDL Environmental Engine & Developer-tool
 
-This is the standalone level editor for the game engine, used to create and manage room-based level data. 
+SEED is a high-performance, lightweight 2D retro game framework built from scratch in C/C++ using the SDL2 library, paired with a companion graphical level editor developed in Python and Pygame. 
 
-## Controls
+Designed with a strict focus on memory efficiency and low-level performance, the engine rejects heavy object-oriented abstractions in favor of a procedural, Data-Oriented Design (DOD). It utilizes pre-allocated contiguous memory pools to optimize CPU cache locality and completely eliminates runtime fragmentation.
 
-| Action - Input |
-| **Change Rooms** - Arrow Keys |
-| **Toggle Object Mode** - Tab |
-| **Select & Draw Tiles** - Left Mouse Button (`LMB`) |
-| **Copy Tiles** - Right Mouse Button (`RMB`) |
-| **Scroll / View More Tiles** - Scroll Wheel |
-| **Save Level Data** - `S` Key |
-| **Load Level Data** - `L` Key |
-| **Change Level up** - `Page up` Key |
-| **Change Level down** - `Page down` Key |
-| **Replace all of that tile** - `R` Key |
-| **Copy chunk** - `C` Key |
-| **Paste chunk** - `V` Key |
+## 🚀 Key Features
 
-### Requirements
-requires pygame and python 3.11
+### 🛠️ Runtime C/C++ Game Engine
+* **Data-Oriented Memory Management:** All game entities are allocated at initialization within a single contiguous array. Active entity destruction is handled via an $O(1)$ pop-and-swap routine, shrinking iteration loops dynamically.
+* **Branchless Tile Animation:** Eliminates runtime CPU conditional branching (if-statements) inside high-frequency rendering loops by utilizing bitmask flag multipliers to compute global tile animation frame offsets.
+* **Kinematic Nudge Physics:** Implements smooth grid-based cardinal movement equipped with a corner-nudging algorithm to prevent bounding-box friction in tight spatial environments.
+* **Two-Stage Framebuffer Scaling:** Renders to a low-resolution offscreen surface before upscale centering on modern hardware, cleanly preserving retro pixel art aspect ratios.
 
-# Game Engine
-A 2d retro game engine built in C/C++ using the level editor made in python. You can move with ASDW and fire with space.
+### 🎨 Standalone Python/Pygame Level Editor
+* **Rapid UI Prototyping:** Built using an Object-Oriented design paradigm in Python to facilitate fast tool construction without adding executable overhead to the core engine runtime.
+* **Direct Binary Serialization:** Visually updates structural tiles and absolute entity spawn placements, serializing data directly into the engine's custom sequential binary map format (`.map`).
 
-## Features
-* **Room-Based Entity System:** Dynamically stores and manages entities within specific game rooms.
-* **Custom Level Editor:** Tooling built to design and export world layouts.
+---
 
-## Prerequisites & Building
-To compile and run this project, you must have **SDL2** installed and properly linked in your compiler settings. It's configured to run using sdl2 in the project directory.
+## 🎮 Main Execution Loop Architecture
 
-### Setup & Dependencies
-IDE: Visual Studio 2017
-Library: SDL2 / SDL_image / SDL_Mixer
+The application entry point utilizes an immutable main loop lifecycle, decoupling platform-dependent hardware tracking from variable game states.
 
-*Note: This project links to external SDL2 directories. To compile on a different machine, please update the Visual Studio Project Properties Include Directories and Linker Additional Dependencies to point to your local SDL2 installation path.
+```cpp
+#include "src/engine.h"
+#include "src/game.h"
 
-Instructions can be found here: https://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php *
+int main(int argc, char* args[]) {
+    EngineInit("SEED Engine Framework", 1280, 720);
+    GameInit();
 
-### Author
-Robert(Tony) Minniti Jr
+    while (EngineIsRunning()){
+        EngineUpdate();         // Process platform input and OS events
+        GameUpdate();           // Execute physics calculations and entity logic
+        
+        EngineRenderStart();    // Clear graphics backbuffer
+        GameDraw();             // Issue batched draw commands
+        EngineRenderEnd();      // Present final frame to the hardware display
+    }
+
+    GameQuit();
+    EngineQuit();
+    return 0;
+}
+```
+
+---
+
+## 🛠️ Compilation & Requirements
+
+### Dependencies
+* **Engine Core:** C/C++ Compiler, SDL2, SDL_image, SDL_mixer
+* **Editor Tooling:** Python 3.11+, Pygame library
+
+### Zero-Configuration Out-of-the-Box Build
+The project structure encapsulates the required SDL2 developer frameworks locally using relative indirect paths. No global operating system or IDE environment variables are required to evaluate the codebase.
+
+1. Clone the repository to your local directory.
+2. Open the solution file using **** (or newer).
+3. Ensure the build configuration is set to match your machine targets (x86/x64).
+4. Hit **Build & Run**. The paths resolve automatically inside the local project context.
+
+*For manual environment modifications or platform setups, refer to the [Lazy Foo' SDL2 Setup Documentation](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php).*
+
+---
+
+## 🕹️ Control Mappings
+
+### Core Game Runtime
+* **Movement:** `W`, `A`, `S`, `D` (Cardinal Direction Constraints)
+* **Action/Attack:** `Spacebar`
+
+### Level Editor Toolkit
+
+| Action | Input Command |
+| :--- | :--- |
+| **Room Navigation** | Arrow Keys |
+| **Toggle Object Mode** | `Tab` Key |
+| **Select & Paint Tiles** | Left Mouse Button (`LMB`) |
+| **Copy Active Tile** | Right Mouse Button (`RMB`) |
+| **Tile Sheet Browsing** | Scroll Wheel |
+| **Global Tile Replacement** | `R` Key |
+| **Copy / Paste Grid Chunk** | `C` Key / `V` Key |
+| **Floor Increment / Decrement** | `Page Up` / `Page Down` |
+| **Serialize Level Array to Disk** | `S` Key |
+| **Parse Level Binary to Grid** | `L` Key |
+
+---
+
+## 👤 Author
+* **Robert (Tony) Minniti Jr.**
