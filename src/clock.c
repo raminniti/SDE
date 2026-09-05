@@ -14,7 +14,7 @@ static unsigned short frameCount = 0;
 void ClockInit()
 {}
 
-double ClockGetFps(){
+int ClockGetFps(){
     return fps;
 }
 

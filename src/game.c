@@ -134,7 +134,7 @@ void GameDraw(void) {
         char debug_buf[64];
 
         // Format and draw debug info
-        snprintf(debug_buf, sizeof(debug_buf), "FPS: %f", ClockGetFps());
+        snprintf(debug_buf, sizeof(debug_buf), "FPS: %d", ClockGetFps());
         ImageDrawText(0+offset_x, 0+offset_y, TEX_GUI, debug_buf);
 
         snprintf(debug_buf, sizeof(debug_buf), "Entities: %d / %d",

@@ -5,7 +5,7 @@
 
 //clock stuff
 void ClockInit();
-double ClockGetFps();
+int ClockGetFps();
 float ClockGetDeltaTime();
 void ClockTick(float d_fps);
 
