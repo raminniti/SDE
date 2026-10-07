@@ -61,27 +61,27 @@ class Level:
     def __init__(self):
         self.width = 8
         self.height = 8
-        self.size = self.width* self.height 
-        #self.currentLevel = 0
+        self.size = self.width* self.height
         self.chunkId = 0
         self.chunkWidth = 15
         self.chunkHeight = 9
         self.chunkSize = self.chunkWidth * self.chunkHeight
-        self.tile_size = 16
+        self.tileSize = 16
         self.tiles = np.full((self.size*self.chunkSize),5, dtype=np.int32)
         self.entities = np.zeros((self.size*self.chunkSize), dtype=np.int32)
         self.chunkTiles = self.tiles[0 : self.chunkSize]
         self.chunkObjects = self.entities[0 : self.chunkSize]
-        self.file_path = Path("assets/levels/0.bin")
+        self.filePath = Path("assets/levels/0.bin")
         self.chunkTilesCopy = self.tiles[0 : self.chunkSize]
         self.chunkObjectsCopy = self.entities[0 : self.chunkSize]
-        if self.file_path.is_file():
+        if self.filePath.is_file():
             print("The file exists.")
-            self.Load(self.file_path)
+            self.Load(self.filePath)
         else:
             print("The file does not exist.")
+            
     def Save(self,path):
-        self.file_path = Path(path)
+        self.filePath = Path(path)
         # Force arrays to 16-bit unsigned integers
         tiles_raw = self.tiles.astype(np.uint16).tobytes()
         entities_raw = self.entities.astype(np.uint16).tobytes()
@@ -89,9 +89,10 @@ class Level:
             f.write(tiles_raw)
             f.write(entities_raw)
         f.close()
+
     def Load(self, path):
-        self.file_path = Path(path)
-        if self.file_path.is_file():
+        self.filePath = Path(path)
+        if self.filePath.is_file():
             # Read the entire flat binary stream of unsigned 16-bit ints
             raw_data = np.fromfile(path, dtype=np.uint16)
             self.tiles = raw_data[0:self.chunkSize*self.size]
